@@ -3,27 +3,34 @@
 
 int main(void)
 {
-	int t1[1000] = {0}, t2[1000] = {0}, nextterm[1000] = {0};
-	t1[999] = 0;
-	t2[999] = 1;
+	FILE *file = fopen("fib.txt", "w");
 	
-	addbignums(nextterm, t1, 1000);
-	addbignums(nextterm, t2, 1000);
+	static int t1[210000] = {0}, t2[210000] = {0}, nextterm[210000] = {0};
+	t1[209999] = 0;
+	t2[209999] = 1;
+	
+	addbignums(nextterm, t1, 210000);
+	addbignums(nextterm, t2, 210000);
 	
 	int i;
-	for(i = 0; i<2500; i++)
+	for(i = 0; i<1000000; i++)
 	{
-		setbignums(t1, t2, 1000);
-		setbignums(t2, nextterm, 1000);
+		setbignums(t1, t2, 210000);
+		setbignums(t2, nextterm, 210000);
 		
-		subbignums(nextterm, nextterm, 1000);
-		addbignums(nextterm, t1, 1000);
-		addbignums(nextterm, t2, 1000);
+		subbignums(nextterm, nextterm, 210000);
+		addbignums(nextterm, t1, 210000);
+		addbignums(nextterm, t2, 210000);
 	}
 	
 	int j;
-	for(j = 0; j<1000; j++) printf("%d", t1[j]);
+	for(j = 0; j<210000; j++)
+	{
+		putc(t1[j]+48, file);
+		printf("%d", t1[j]);
+	}
 	printf("\n");
+	fclose(file);
 	
 	getchar();
 	

@@ -10,7 +10,7 @@ void setbignums(int *arr1, int *arr2, int size)
 	}
 }
 
-int * addbignums(int *arr1, int *arr2, int size)
+void addbignums(int *arr1, int *arr2, int size)
 {	
 	int i;
 	for(i = 0; i<size; i++) arr1[i] += arr2[i];
@@ -24,11 +24,9 @@ int * addbignums(int *arr1, int *arr2, int size)
 			arr1[k] -= 10;
 		}
 	}
-
-	return arr1;
 }
 
-int * subbignums(int *arr1, int *arr2, int size)
+void subbignums(int *arr1, int *arr2, int size)
 {	
 	int i;
 	for(i = 0; i<size; i++) arr1[i] -= arr2[i];
@@ -42,11 +40,9 @@ int * subbignums(int *arr1, int *arr2, int size)
 			arr1[k] += 10;
 		}
 	}
-
-	return arr1;
 }
 
-int * multbignums(int *arr1, int *arr2, int size)
+void multbignums(int *arr1, int *arr2, int size)
 {
 	int times = 0;
 	
@@ -63,6 +59,4 @@ int * multbignums(int *arr1, int *arr2, int size)
 	
 	int j;
 	for(j = 0; j<times; j++) addbignums(arr1, temp, size);
-	
-	return arr1;
 }
