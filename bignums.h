@@ -3,11 +3,7 @@
 void setbignums(int *arr1, int *arr2, int size)
 {
 	int i;
-	for(i = 0; i<size; i++)
-	{
-		arr1[i] = 0;
-		arr1[i] = arr2[i];
-	}
+	for(i = 0; i<size; i++) arr1[i] = arr2[i];
 }
 
 void addbignums(int *arr1, int *arr2, int size)
