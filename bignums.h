@@ -40,19 +40,44 @@ void subbignums(int *arr1, int *arr2, int size)
 
 void multbignums(int *arr1, int *arr2, int size)
 {
-	int times = 0;
+	int temp1[size];
+	int a;
+	for(a = 0; a<size; a++) temp1[a] = 0;
 	
 	int i;
-	for(i = size; i>0; i--) times += (((int)pow(10, ((i-size))*-1)))*arr2[i-1];
-		
-	int temp[size];
-	int k;
-	for(k = 0; k<size; k++)
+	for(i = size-1; i>=0; i--)
 	{
-		temp[k] = arr1[k];
-		arr1[k] = 0;
-	}
+		int temp2[size];
+		int j;
+		for(j = 0; j<size; j++) temp2[j] = 0;
+		
+		int k;
+		for(k = 0; k<arr2[i]; k++) addbignums(temp2, arr1, size);
+		
+		int l, length = 0;
+		for(l = 0; l<size; l++)
+		{
+			if(temp2[l] != 0) 
+			{
+				length = size - l;
+				break;
+			}
+		}
+		
+		int m;
+		for(m = 0; m<length; m++) temp1[i-m] += temp2[size-1-m];
 	
-	int j;
-	for(j = 0; j<times; j++) addbignums(arr1, temp, size);
+		if(temp1[i] >= 10)
+		{
+			temp1[i-1]++;
+			temp1[i] -= 10;
+		}
+		
+		if(temp1[i] >= 10)
+		{
+			temp1[i-1]++;
+			temp1[i] -= 10;
+		}
+	}
+	setbignums(arr1, temp1, size);
 }
