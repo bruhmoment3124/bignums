@@ -1,12 +1,14 @@
 #include <math.h>
 
-void setbignums(int *arr1, int *arr2, int size)
+int * setbignums(int *arr1, int *arr2, int size)
 {
 	int i;
 	for(i = 0; i<size; i++) arr1[i] = arr2[i];
+	
+	return arr1;
 }
 
-void addbignums(int *arr1, int *arr2, int size)
+int * addbignums(int *arr1, int *arr2, int size)
 {	
 	int i;
 	for(i = 0; i<size; i++) arr1[i] += arr2[i];
@@ -20,9 +22,11 @@ void addbignums(int *arr1, int *arr2, int size)
 			arr1[j] -= 10;
 		}
 	}
+	
+	return arr1;
 }
 
-void subbignums(int *arr1, int *arr2, int size)
+int * subbignums(int *arr1, int *arr2, int size)
 {	
 	int i;
 	for(i = 0; i<size; i++) arr1[i] -= arr2[i];
@@ -36,9 +40,11 @@ void subbignums(int *arr1, int *arr2, int size)
 			arr1[j] += 10;
 		}
 	}
+	
+	return arr1;
 }
 
-void multbignums(int *arr1, int *arr2, int size)
+int * multbignums(int *arr1, int *arr2, int size)
 {
 	int temp1[size];
 	int i;
@@ -73,5 +79,7 @@ void multbignums(int *arr1, int *arr2, int size)
 			temp1[j] -= 10;
 		}
 	}
+	
 	setbignums(arr1, temp1, size);
+	return arr1;
 }
