@@ -3,26 +3,23 @@
 
 int main(void)
 {
-	FILE *f = fopen("fib.txt", "w");
-	
-	static int n1[210000] = {0}, n2[210000] = {0}, n3[210000] = {0}, zero[210000] = {0}; 
-	n1[209999] = 0;
-	n2[209999] = 1;
+	static int n1[2] = {0}, n2[2] = {0}, n3[2] = {0}, zero[2] = {0}; 
+	n1[1] = 0;
+	n2[1] = 1;
 	
 	int i;
-	for(i = 1; i<1000000; i++)
+	for(i = 1; i<75; i++)
 	{
-		setbignums(n3, zero, 210000);
-		addbignums(n3, n1, 210000);
-		addbignums(n3, n2, 210000);
+		setbignums(n3, zero, 2);
+		addbignums(n3, n1, 2);
+		addbignums(n3, n2, 2);
 		
-		setbignums(n1, n2, 210000);
-		setbignums(n2, n3, 210000);
-		printf("%d\n", i);
+		setbignums(n1, n2, 2);
+		setbignums(n2, n3, 2);
 	}
 	
 	int j;
-	for(j = 0; j<210000; j++) putc(n3[j]+48, f);
+	for(j = 0; j<2; j++) printf("%09d", n3[j]);
 	printf("\n");
 	
 	getchar();

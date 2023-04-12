@@ -8,6 +8,23 @@ int * setbignums(int *arr1, int *arr2, int size)
 	return arr1;
 }
 
+int compbignums(int *arr1, int *arr2, int size)
+{
+	int i;
+	for(i = 0; i<size; i++)
+	{
+		if(arr1[i] > arr2[i])
+		{
+			return 1;
+		} else if(arr1[i] < arr2[i])
+		{
+			return 2;
+		}
+	}
+	
+	return 0;
+}
+
 int * addbignums(int *arr1, int *arr2, int size)
 {	
 	int i;
@@ -16,10 +33,10 @@ int * addbignums(int *arr1, int *arr2, int size)
 	int j;
 	for(j = size-1; j>=0; j--) 
 	{
-		if(arr1[j] >= 10)
+		if(arr1[j] >= 1000000000)
 		{
 			arr1[j-1]++;
-			arr1[j] -= 10;
+			arr1[j] -= 1000000000;
 		}
 	}
 	
@@ -37,7 +54,7 @@ int * subbignums(int *arr1, int *arr2, int size)
 		if(arr1[j] < 0)
 		{
 			arr1[j-1]--;
-			arr1[j] += 10;
+			arr1[j] += 1000000000;
 		}
 	}
 	
@@ -46,40 +63,30 @@ int * subbignums(int *arr1, int *arr2, int size)
 
 int * multbignums(int *arr1, int *arr2, int size)
 {
-	int temp1[size];
+	int temp[size], zero[size], one[size];
 	int i;
-	for(i = 0; i<size; i++) temp1[i] = 0;
+	for(i = 0; i<size; i++) zero[i] = 0;
+	
+	setbignums(temp, arr1, size);
+	setbignums(arr1, zero, size);
+	setbignums(one, zero, size);
+	one[size-1] = 1;
+	
+	while(compbignums(temp, zero, size) != 0)
+	{
+		addbignums(arr1, arr2, size);
+		subbignums(temp, one, size);
+	}
 	
 	int j;
-	for(j = size-1; j>=0; j--)
+	for(j = size-1; j>=0; j--) 
 	{
-		int temp2[size];
-		int k;
-		for(k = 0; k<size; k++) temp2[k] = 0;
-		
-		int l;
-		for(l = 0; l<arr2[j]; l++) addbignums(temp2, arr1, size);
-		
-		int m, length = 0;
-		for(m = 0; m<size; m++)
+		if(arr1[j] >= 1000000000)
 		{
-			if(temp2[m] != 0) 
-			{
-				length = size - m;
-				break;
-			}
-		}
-		
-		int n;
-		for(n = 0; n<length; n++) temp1[j-n] += temp2[size-1-n];
-	
-		while(temp1[j] >= 10)
-		{
-			temp1[j-1]++;
-			temp1[j] -= 10;
+			arr1[j-1]++;
+			arr1[j] -= 1000000000;
 		}
 	}
 	
-	setbignums(arr1, temp1, size);
 	return arr1;
 }
