@@ -3,11 +3,7 @@
 
 int main(void)
 {
-	int arr1[1] = {0}, arr2[1] = {0}, arr3[1] = {0};
-	
-	arr1[0] = 10;
-	arr2[0] = 9;
-	arr3[0] = 1;
+	char arr1[9] = "000000010", arr2[9] = "000000009", arr3[9] = "000000001";
 	
 	int i;
 	for(i = 1; i<10; i++)
@@ -17,7 +13,7 @@ int main(void)
 	}
 
 	int j;
-	for(j = 0; j<1; j++) printf("%09d", arr1[j]);
+	for(j = 0; j<9; j++) printf("%c", arr1[j]);
 	printf("\n");
 	getchar();
 

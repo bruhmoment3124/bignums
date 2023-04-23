@@ -3,25 +3,23 @@
 
 int main(void)
 {
-	static int n1[100] = {0}, n2[100] = {0}, n3[100] = {0}, zero[100] = {0}; 
-	n1[99] = 0;
-	n2[99] = 1;
+	char first[9] = "000000000", second[9] = "000000001", result[9] = "000000000";
 	
 	int i;
-	for(i = 1; i<2000; i++)
+	for(i = 1; i<25; i++)
 	{
-		setbignums(n3, zero, 100);
-		addbignums(n3, n1, 100);
-		addbignums(n3, n2, 100);
+		char temp[9] = "000000000";
+		addbignums(temp, first, 1);
+		addbignums(temp, second, 1);
+		setbignums(result, temp, 1);
 		
-		setbignums(n1, n2, 100);
-		setbignums(n2, n3, 100);
+		setbignums(first, second, 1);
+		setbignums(second, result, 1);
 	}
 	
 	int j;
-	for(j = 0; j<100; j++) printf("%09d", n3[j]);
+	for(j = 0; j<9; j++) printf("%c", result[j]);
 	printf("\n");
-	
 	getchar();
 	
 	return 0;
