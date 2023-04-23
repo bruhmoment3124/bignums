@@ -21,16 +21,38 @@ void numtostr(int *arr, char *str, int size)
 	}
 }
 
-int * setbignums(int *arr1, int *arr2, int size)
+int sizeofstr(char *str)
 {
-	int i;
-	for(i = 0; i<size; i++) arr1[i] = arr2[i];
+	int n = 0;
 	
-	return arr1;
+	int i;
+	for(i = 0; str[i] != '\0'; i++) n++;
+
+	return n;
 }
 
-int compbignums(int *arr1, int *arr2, int size)
+char * setbignums(char *str1, char *str2, int size)
 {
+	int i;
+	for(i = 0; i<size*9; i++) str1[i] = str2[i];
+	
+	return str1;
+}
+
+int compbignums(char *str1, char *str2, int size)
+{
+	int arr1[size], arr2[size];
+
+	int l;
+	for(l = 0; l<size; l++)
+	{
+		arr1[l] = 0;
+		arr2[l] = 0;
+	}
+
+	strtonum(str1, arr1, size);
+	strtonum(str2, arr2, size);
+	
 	int i;
 	for(i = 0; i<size; i++)
 	{
@@ -77,8 +99,20 @@ char * addbignums(char *str1, char *str2, int size)
 	return str1;
 }
 
-int * subbignums(int *arr1, int *arr2, int size)
+char * subbignums(char *str1, char *str2, int size)
 {	
+	int arr1[size], arr2[size];
+
+	int l;
+	for(l = 0; l<size; l++)
+	{
+		arr1[l] = 0;
+		arr2[l] = 0;
+	}
+
+	strtonum(str1, arr1, size);
+	strtonum(str2, arr2, size);
+
 	int i;
 	for(i = 0; i<size; i++) arr1[i] -= arr2[i];
 	
@@ -91,29 +125,30 @@ int * subbignums(int *arr1, int *arr2, int size)
 			arr1[j] += 1000000000;
 		}
 	}
+	numtostr(arr1, str1, size);
 	
-	return arr1;
+	return str1;
 }
-/*
-int * multbignums(int *arr1, int *arr2, int size)
+
+char * multbignums(char *str1, char *str2, int size)
 {
-	int temp[size], zero[size], one[size];
+	char temp[size*9], zero[size*9], one[size*9];
 	int i;
-	for(i = 0; i<size; i++) zero[i] = 0;
+	for(i = 0; i<size*9; i++) zero[i] = '0';
 	
-	setbignums(temp, arr1, size);
-	setbignums(arr1, zero, size);
+	setbignums(temp, str1, size);
+	setbignums(str1, zero, size);
 	setbignums(one, zero, size);
-	one[size-1] = 1;
-	
+	one[size*9-1] = '1';
+
 	while(compbignums(temp, zero, size) != 0)
 	{
-		addbignums(arr1, arr2, size);
+		addbignums(str1, str2, size);
 		subbignums(temp, one, size);
 	}
 	
-	return arr1;
-}*/
+	return str1;
+}
 
 int * divbignums(int *arr1, int *arr2, int size)
 {
