@@ -150,9 +150,14 @@ char * multbignums(char *str1, char *str2, int size)
 	return str1;
 }
 
-int * divbignums(int *arr1, int *arr2, int size)
+char * divbignums(char *str1, char *str2, int decplace, int size)
 {
+	char abagilion[size*9];
+	int i;
+	for(i = 0; i<size*9; i++) abagilion[i] = '0';
+	abagilion[9*size-decplace*9] = '1';
 	
+	multbignums(str1, abagilion, size);
 	
-	return arr1;
+	return str1;
 }
