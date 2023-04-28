@@ -157,7 +157,7 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 	for(i = 0; i<size*9; i++) abagilion[i] = '0';
 	abagilion[9*size-decplace*9] = '1';
 	
-	multbignums(str1, abagilion, size);
+	if(compbignums(str1, abagilion, size) == 2) multbignums(str1, abagilion, size);
 	
 	return str1;
 }
