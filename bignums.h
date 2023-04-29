@@ -5,7 +5,13 @@ void strtonum(char *str, int *arr, int size)
 	int i, k;
 	for(i = 1; i<=size; i++)
 	{
-		for(k = 8; k>=0; k--) arr[i-1] += (str[(9*i-k)-1]-48)*pow((double)10, (double)k);
+		for(k = 8; k>=0; k--)
+		{
+			if(str[(9*i-k)-1] >= 48 && str[(9*i-k)-1] <= 57)
+			{
+				arr[i-1] += (str[(9*i-k)-1]-48)*pow((double)10, (double)k);
+			}
+		}
 	}
 }
 
@@ -152,12 +158,24 @@ char * multbignums(char *str1, char *str2, int size)
 
 char * divbignums(char *str1, char *str2, int decplace, int size)
 {
-	char abagilion[size*9];
+	char abagilion[size*9], temp[size*9], one[size*9], zero[size*9];
 	int i;
-	for(i = 0; i<size*9; i++) abagilion[i] = '0';
+	for(i = 0; i<size*9; i++)
+	{
+		abagilion[i] = '0';
+		temp[i] = '0';
+		one[i] = '0';
+		zero[i] = '0';
+	}
 	abagilion[9*size-decplace*9] = '1';
-	
-	if(compbignums(str1, abagilion, size) == 2) multbignums(str1, abagilion, size);
+	one[size*9-1] = '1';
+
+	while(compbignums(str1, str2, size) == 0 || compbignums(str1, str2, size) == 1)
+	{	
+		subbignums(str1, str2, size);
+		addbignums(temp, one, size);
+	}
+	setbignums(str1, temp, size);
 	
 	return str1;
 }
