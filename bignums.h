@@ -2,15 +2,23 @@
 
 void strtonum(char *str, int *arr, int size)
 {
+	char temp[size*9];
+	
+	int j, f = 0;
+	for(j = 0; j<size*9; j++)
+	{
+		temp[j] = '0';
+		
+		if(str[j] == '.') f++;
+		temp[j] = str[j+f];
+	}
+
 	int i, k;
 	for(i = 1; i<=size; i++)
 	{
 		for(k = 8; k>=0; k--)
-		{
-			if(str[(9*i-k)-1] >= 48 && str[(9*i-k)-1] <= 57)
-			{
-				arr[i-1] += (str[(9*i-k)-1]-48)*pow((double)10, (double)k);
-			}
+		{	
+			arr[i-1] += (temp[(9*i-k)-1]-48)*pow((double)10, (double)k);
 		}
 	}
 }
