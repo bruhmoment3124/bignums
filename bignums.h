@@ -23,16 +23,18 @@ void strtonum(char *str, int *arr, int size)
 	}
 }
 
-void numtostr(int *arr, char *str, int size)
+void numtostr(int *arr, char *str, int decplace, int size)
 {
-	int i, k;
+	int i, k, x = 0;
 	for(i = 1; i<=size; i++)
 	{
 		for(k = 8; k>=0; k--)
 		{
-			str[(9*i-k)-1] = ((int)floor(arr[i-1] / pow((double)10, (double)k)) % 10)+48;
+			if((9*i-k)-1 == decplace*9) x++;
+			str[(9*i-k)-1+x] = ((int)floor(arr[i-1] / pow((double)10, (double)k)) % 10)+48;
 		}
 	}
+	str[9*decplace] = '.';
 }
 
 int sizeofstr(char *str)
@@ -48,7 +50,7 @@ int sizeofstr(char *str)
 char * setbignums(char *str1, char *str2, int size)
 {
 	int i;
-	for(i = 0; i<size*9; i++) str1[i] = str2[i];
+	for(i = 0; i<size*9+1; i++) str1[i] = str2[i];
 	
 	return str1;
 }
@@ -82,7 +84,7 @@ int compbignums(char *str1, char *str2, int size)
 	return 0;
 }
 
-char * addbignums(char *str1, char *str2, int size)
+char * addbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
 
@@ -108,12 +110,12 @@ char * addbignums(char *str1, char *str2, int size)
 			arr1[j] -= 1000000000;
 		}
 	}
-	numtostr(arr1, str1, size);
+	numtostr(arr1, str1, decplace, size);
 	
 	return str1;
 }
 
-char * subbignums(char *str1, char *str2, int size)
+char * subbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
 
@@ -139,26 +141,32 @@ char * subbignums(char *str1, char *str2, int size)
 			arr1[j] += 1000000000;
 		}
 	}
-	numtostr(arr1, str1, size);
+	numtostr(arr1, str1, decplace, size);
 	
 	return str1;
 }
 
-char * multbignums(char *str1, char *str2, int size)
+char * multbignums(char *str1, char *str2, int decplace, int size)
 {
-	char temp[size*9], zero[size*9], one[size*9];
+	char temp[size*9+1], zero[size*9+1], one[size*9+1];
 	int i;
-	for(i = 0; i<size*9; i++) zero[i] = '0';
+	for(i = 0; i<size*9+1; i++) zero[i] = '0';
+	zero[9*decplace] = '.';
 	
 	setbignums(temp, str1, size);
 	setbignums(str1, zero, size);
 	setbignums(one, zero, size);
-	one[size*9-1] = '1';
+	one[size*9] = '1';
+	
 
 	while(compbignums(temp, zero, size) != 0)
 	{
-		addbignums(str1, str2, size);
-		subbignums(temp, one, size);
+		addbignums(str1, str2, decplace, size);
+		subbignums(temp, one, decplace, size);
+		
+		int k;
+		for(k = 0; k<19; k++) printf("%c", temp[k]);
+		printf("\n");
 	}
 	
 	return str1;
@@ -180,8 +188,8 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 
 	while(compbignums(str1, str2, size) == 0 || compbignums(str1, str2, size) == 1)
 	{	
-		subbignums(str1, str2, size);
-		addbignums(temp, one, size);
+		subbignums(str1, str2, decplace, size);
+		addbignums(temp, one, decplace, size);
 	}
 	setbignums(str1, temp, size);
 	
