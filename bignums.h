@@ -47,6 +47,32 @@ int sizeofstr(char *str)
 	return n;
 }
 
+void shiftbignums(char *str, int n, int decplace, int size)
+{
+	int n1, n2;
+	
+	int i;
+	for(i = 0; i<size*9+1; i++)
+	{
+		if(str[i] >= 49 && str[i] <= 57)
+		{
+			n1 = i;
+			break;
+		}
+	}
+	
+	int k;
+	for(k = size*9; k>=0; k--)
+	{
+		if(str[k] >= 49 && str[k] <= 57)
+		{
+			n2 = k;
+			break;
+		}
+	}
+	printf("%d\n", n2-n1);
+}
+
 char * setbignums(char *str1, char *str2, int size)
 {
 	int i;
