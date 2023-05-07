@@ -49,19 +49,38 @@ int sizeofstr(char *str)
 
 void shiftbignums(char *str, int n, int size)
 {
-	int j, x = 0;
-	for(j = size*9; j>=0; j--)
+	int i, j;
+	if(n == 1)
 	{
-		if(str[j] == '.')
+		for(i = size*9; i>=0; i--)
 		{
-			str[j+1] = str[j-1];
-			str[j-1] = '0';
+			if(str[i] == '.')
+			{
+				str[i+1] = str[i-1];
+				str[i-1] = '0';
+			}
+			
+			if(str[i] >= 49 && str[i] <= 57)
+			{
+				str[i+1] = str[i];
+				str[i] = '0';
+			}
 		}
-		
-		if(str[j] >= 49 && str[j] <= 57)
+	} else if(n == -1)
+	{
+		for(j = 0; j<size*9+1; j++)
 		{
-			str[j+1] = str[j];
-			str[j] = '0';
+			if(str[j] == '.')
+			{
+				str[j-1] = str[j+1];
+				str[j+1] = '0';
+			}
+			
+			if(str[j] >= 49 && str[j] <= 57)
+			{
+				str[j-1] = str[j];
+				str[j] = '0';
+			}
 		}
 	}
 }
