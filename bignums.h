@@ -186,6 +186,28 @@ char * subbignums(char *str1, char *str2, int decplace, int size)
 
 char * multbignums(char *str1, char *str2, int decplace, int size)
 {
+	int start1 = 0, start2 = 0, end1 = 0, end2 = 0;
+	int size1, size2;
+	
+	int l;
+	for(l = decplace*9; l<size*9+1; l++)
+	{
+		if(start1 == 0 && str1[l] >= 49 && str1[l] <= 57) start1 = l;
+		if(start2 == 0 && str2[l] >= 49 && str2[l] <= 57) start2 = l;
+	}
+	
+	int j;
+	for(j = size*9; j>decplace*9; j--)
+	{
+		if(end1 == 0 && str1[j] >= 49 && str1[j] <= 57) end1 = j;
+		if(end2 == 0 && str2[j] >= 49 && str2[j] <= 57) end2 = j;
+	}
+
+	size1 = end1-(start1-1);
+	size2 = end2-(start2-1);
+	
+	printf("%d, %d\n", size1, size2);
+	
 	char temp[size*9+1], zero[size*9+1], one[size*9+1];
 	int i;
 	for(i = 0; i<size*9+1; i++) zero[i] = '0';
@@ -201,10 +223,6 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	{
 		addbignums(str1, str2, decplace, size);
 		subbignums(temp, one, decplace, size);
-		
-		int k;
-		for(k = 0; k<19; k++) printf("%c", temp[k]);
-		printf("\n");
 	}
 	
 	return str1;
