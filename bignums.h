@@ -186,14 +186,7 @@ char * subbignums(char *str1, char *str2, int decplace, int size)
 
 char * multbignums(char *str1, char *str2, int decplace, int size)
 {
-	int decstart = 0, decend = 0;
-	int decsize;
-	
-	int l;
-	for(l = decplace*9; l<size*9+1; l++)
-	{
-		if(decstart == 0 && str1[l] >= 49 && str1[l] <= 57) decstart = l;
-	}
+	int decend = 0, decsize;
 	
 	int j;
 	for(j = size*9; j>=decplace*9; j--)
@@ -201,22 +194,12 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 		if(decend == 0 && str1[j] >= 49 && str1[j] <= 57) decend = j;
 	}
 	
-	printf("%d, %d\n", decstart, decend);
-	
 	decsize = decend-decplace*9;
-	printf("%d\n", decsize);
 	
 	while(str1[size*9] == '0') shiftbignums(str1, 1, size);
 	
 	int g;
 	for(g = 0; g<decsize; g++) shiftbignums(str2, 1, size);
-	
-	
-	/*printf("%d, %d\n\n", size1, size2);
-	int x;
-	for(x = 0; x<size*9+1; x++) printf("%c", str2[x]);
-	printf("\n\n");*/
-	
 	
 	char temp[size*9+1], zero[size*9+1], one[size*9+1];
 	int i;
@@ -233,6 +216,9 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 		addbignums(str1, str2, decplace, size);
 		subbignums(temp, one, decplace, size);
 	}
+	
+	int z;
+	for(z = 0; z<decsize; z++) shiftbignums(str2, -1, size);
 	
 	return str1;
 }
