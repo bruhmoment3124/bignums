@@ -113,6 +113,19 @@ int compbignums(char *str1, char *str2, int size)
 	return 0;
 }
 
+int paritybignums(char *str1, int size)
+{
+	int arr[size];
+
+	int l;
+	for(l = 0; l<size; l++) arr[l] = 0;
+	strtonum(str1, arr, size);
+	
+	if(arr[size-1] % 2 == 0) return 0;
+	
+	return 1;
+}
+
 char * addbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
@@ -177,7 +190,7 @@ char * subbignums(char *str1, char *str2, int decplace, int size)
 
 char * multbignums(char *str1, char *str2, int decplace, int size)
 {
-	int decend = 0, decsize;
+	/*int decend = 0, decsize;
 	
 	int j;
 	for(j = size*9; j>=decplace*9; j--)
@@ -190,32 +203,31 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	while(str1[size*9] == '0') shiftbignums(str1, 1, size);
 	
 	int g;
-	for(g = 0; g<decsize; g++) shiftbignums(str2, 1, size);
+	for(g = 0; g<decsize; g++) shiftbignums(str2, 1, size);*/
 	
-	char x[size*9+1], one[size*9+1];
+	char x[size*9+1], zero[size*9+1], temp1[size*9+1], temp2[size*9+1];
 	
 	int i;
-	for(i = 0; i<size*9+1; i++) one[i] = '0';
-	one[9*decplace] = '.';
-	one[size*9] = '1';
+	for(i = 0; i<size*9+1; i++) zero[i] = '0';
+	zero[9*decplace] = '.';
+	setbignums(temp2, zero, size);
 	
-	while(compbignums(str1, one, size) == 1)
-	{
+	while(compbignums(str1, zero, size) == 1)
+	{	
+		if(paritybignums(str1, size) == 1) addbignums(temp2, str2, decplace, size);
+		
+		setbignums(temp1, str2, size);
+		addbignums(str2, temp1, decplace, size);
+		
 		setbignums(x, str1, size);
 		int l;
-		for(l = 0; l<4; l++)
-		{
-			addbignums(str1, x, decplace, size);
-		}
+		for(l = 0; l<4; l++) addbignums(str1, x, decplace, size);
 		shiftbignums(str1, 1, size);
-		
-		int o;
-		for(o = 0; o<size*9+1; o++) printf("%c", str1[o]);
-		printf("\n");
 	}
+	setbignums(str2, temp2, size);
 	
-	int z;
-	for(z = 0; z<decsize; z++) shiftbignums(str2, -1, size);
+	/*int z;
+	for(z = 0; z<decsize; z++) shiftbignums(str2, -1, size);*/
 	
 	return str1;
 }
