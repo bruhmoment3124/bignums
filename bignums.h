@@ -190,6 +190,14 @@ char * subbignums(char *str1, char *str2, int decplace, int size)
 
 char * multbignums(char *str1, char *str2, int decplace, int size)
 {
+	/*char swap[size*9+1];
+	if(compbignums(str1, str2, size) != 0)
+	{
+		setbignums(swap, str1, size);
+		setbignums(str1, str2, size);
+		setbignums(str2, swap, size);
+	}*/
+	
 	char strsave[size*9+1];
 	setbignums(strsave, str2, size);
 	
@@ -208,7 +216,7 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	int g;
 	for(g = 0; g<decsize; g++) shiftbignums(str2, 1, size);
 	
-	char x[size*9+1], zero[size*9+1], temp1[size*9+1], temp2[size*9+1];
+	char half[size*9+1], zero[size*9+1], temp1[size*9+1], temp2[size*9+1];
 	
 	int i;
 	for(i = 0; i<size*9+1; i++) zero[i] = '0';
@@ -222,9 +230,9 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 		setbignums(temp2, str1, size);
 		addbignums(str1, temp2, decplace, size);
 		
-		setbignums(x, str2, size);
+		setbignums(half, str2, size);
 		int l;
-		for(l = 0; l<4; l++) addbignums(str2, x, decplace, size);
+		for(l = 0; l<4; l++) addbignums(str2, half, decplace, size);
 		shiftbignums(str2, 1, size);
 	}
 	setbignums(str1, temp1, size);
