@@ -193,7 +193,7 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	char strsave[size*9+1];
 	setbignums(strsave, str2, size);
 	
-	int decend = 0, decsize;
+	int decend = 0, decsize = 0;
 	
 	int j;
 	for(j = size*9; j>=decplace*9; j--)
@@ -201,11 +201,11 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 		if(decend == 0 && str1[j] >= 49 && str1[j] <= 57) decend = j;
 	}
 	
-	decsize = decend-decplace*9;
+	if(decend > 0) decsize = decend-decplace*9;
 	
 	int p;
-	for(p = 0; p<size*9-decplace*9; p++) shiftbignums(str1, 1, size);
-	
+	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str1, 1, size);
+
 	int g;
 	for(g = 0; g<decsize; g++) shiftbignums(str2, 1, size);
 	
