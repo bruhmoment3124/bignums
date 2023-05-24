@@ -198,37 +198,36 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	int j;
 	for(j = size*9; j>=decplace*9; j--)
 	{
-		if(decend == 0 && str1[j] >= 49 && str1[j] <= 57) decend = j;
+		if(decend == 0 && str2[j] >= 49 && str2[j] <= 57) decend = j;
 	}
-	
 	if(decend > 0) decsize = decend-decplace*9;
 	
-	int p;
-	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str1, 1, size);
-
 	int g;
-	for(g = 0; g<decsize; g++) shiftbignums(str2, 1, size);
+	for(g = 0; g<decsize; g++) shiftbignums(str1, 1, size);
 	
-	char half[size*9+1], zero[size*9+1], temp1[size*9+1], temp2[size*9+1];
+	int p;
+	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str2, 1, size);
+	
+	char half[size*9+1], zero[size*9+1], prod[size*9+1], dbl[size*9+1];
 	
 	int i;
 	for(i = 0; i<size*9+1; i++) zero[i] = '0';
 	zero[9*decplace] = '.';
-	setbignums(temp1, zero, size);
+	setbignums(prod, zero, size);
 	
 	while(compbignums(str2, zero, size) == 1)
 	{	
-		if(paritybignums(str2, size) == 1) addbignums(temp1, str1, decplace, size);
+		if(paritybignums(str2, size) == 1) addbignums(prod, str1, decplace, size);
 		
-		setbignums(temp2, str1, size);
-		addbignums(str1, temp2, decplace, size);
+		setbignums(dbl, str1, size);
+		addbignums(str1, dbl, decplace, size);
 		
 		setbignums(half, str2, size);
 		int l;
 		for(l = 0; l<4; l++) addbignums(str2, half, decplace, size);
 		shiftbignums(str2, 1, size);
 	}
-	setbignums(str1, temp1, size);
+	setbignums(str1, prod, size);
 	setbignums(str2, strsave, size);
 	
 	return str1;
