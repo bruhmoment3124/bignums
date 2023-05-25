@@ -235,17 +235,17 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 
 char * divbignums(char *str1, char *str2, int decplace, int size)
 {
-	char abagilion[size*9], temp[size*9], one[size*9], zero[size*9];
+	char temp[size*9+1], one[size*9+1];
 	int i;
-	for(i = 0; i<size*9; i++)
+	for(i = 0; i<size*9+1; i++)
 	{
-		abagilion[i] = '0';
 		temp[i] = '0';
 		one[i] = '0';
-		zero[i] = '0';
 	}
-	abagilion[9*size-decplace*9] = '1';
-	one[size*9-1] = '1';
+	temp[decplace*9] = '.';
+	
+	one[decplace*9] = '.';
+	one[size*9] = '1';
 
 	while(compbignums(str1, str2, size) == 0 || compbignums(str1, str2, size) == 1)
 	{	
