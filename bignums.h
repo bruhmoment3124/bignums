@@ -235,6 +235,21 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 
 char * divbignums(char *str1, char *str2, int decplace, int size)
 {
+	int decend = 0, decsize = 0;
+	
+	int j;
+	for(j = size*9; j>=decplace*9; j--)
+	{
+		if(decend == 0 && str2[j] >= 49 && str2[j] <= 57) decend = j;
+	}
+	if(decend > 0) decsize = decend-decplace*9;
+	
+	int g;
+	for(g = 0; g<decsize; g++) shiftbignums(str1, -1, size);
+	
+	int p;
+	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str2, 1, size);
+	
 	char temp[size*9+1], one[size*9+1];
 	int i;
 	for(i = 0; i<size*9+1; i++)
@@ -247,7 +262,7 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 	one[decplace*9] = '.';
 	one[size*9] = '1';
 
-	while(compbignums(str1, str2, size) == 0 || compbignums(str1, str2, size) == 1)
+	while(compbignums(str1, str2, size) < 2)
 	{	
 		subbignums(str1, str2, decplace, size);
 		addbignums(temp, one, decplace, size);
