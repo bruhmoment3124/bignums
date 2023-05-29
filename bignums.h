@@ -253,15 +253,17 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 	int p;
 	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str2, 1, size);
 	
-	char quot[size*9+1], pow2[size*9+1], one[size*9+1];
+	char quot[size*9+1], pow2[size*9+1], one[size*9+1], zero[size*9+1];
 	
 	int i;
-	for(i = 0; i<size*9+1; i++) one[i] = '0';
-	one[decplace*9] = '.';
+	for(i = 0; i<size*9+1; i++) zero[i] = '0';
+	zero[decplace*9] = '.';
 	
-	setbignums(quot, one, size);
+	setbignums(quot, zero, size);
 	
+	setbignums(one, zero, size);
 	one[size*9] = '1';
+	
 	setbignums(pow2, one, size);
 	
 	char dbl[size*9+1];
@@ -281,20 +283,11 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 	setbignums(combtemp, one, size);
 	combtemp[size*9] = '0';
 	
-	while(compbignums(pow2, one, size) != 0)
+	while(compbignums(pow2, zero, size) != 0)
 	{
 		char temp1[size*9+1], temp2[size*9+1];
 		setbignums(temp1, dbl, size);
 		setbignums(temp2, pow2, size);
-		
-		int l;
-		for(l = 0; l<4; l++)
-		{	
-			addbignums(dbl, temp1, decplace, size);
-			addbignums(pow2, temp2, decplace, size);
-		}
-		shiftbignums(dbl, 1, size);
-		shiftbignums(pow2, 1, size);
 		
 		char combtemp2[size*9+1];
 		
@@ -309,6 +302,15 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 			addbignums(combtemp, dbl, decplace, size);
 			addbignums(quot, pow2, decplace, size);
 		}
+		
+		int l;
+		for(l = 0; l<4; l++)
+		{	
+			addbignums(dbl, temp1, decplace, size);
+			addbignums(pow2, temp2, decplace, size);
+		}
+		shiftbignums(dbl, 1, size);
+		shiftbignums(pow2, 1, size);
 	}
 	setbignums(str1, quot, size);
 	setbignums(str2, strsave, size);
