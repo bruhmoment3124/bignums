@@ -290,7 +290,6 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 		setbignums(temp2, pow2, size);
 		
 		char combtemp2[size*9+1];
-		
 		setbignums(combtemp2, one, size);
 		combtemp2[size*9] = '0';
 		
