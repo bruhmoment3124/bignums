@@ -316,3 +316,60 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 
 	return str1;
 }
+
+/**********
+* fractions
+/*********/
+
+void addfrac(char *str1, char *str2, char *str3, char *str4, int decplace, int size, char sum[2][size*9+1])
+{
+	char zero[size*9+1];
+	int i;
+	for(i = 0; i<size*9+1; i++) zero[i] = '0';
+	zero[decplace*9] = '.';
+	
+	char axd[size*9+1], bxc[size*9+1], bxd[size*9+1];
+	setbignums(axd, zero, size);
+	setbignums(bxc, zero, size);
+	setbignums(bxd, zero, size);
+
+	addbignums(axd, str1, decplace, size);
+	multbignums(axd, str4, decplace, size);
+	
+	addbignums(bxc, str2, decplace, size);
+	multbignums(bxc, str3, decplace, size);
+	
+	setbignums(bxd, str2, size);
+	multbignums(bxd, str4, decplace, size);
+	setbignums(sum[1], bxd, size);
+	
+	setbignums(sum[0], axd, size);
+	addbignums(sum[0], bxc, decplace, size);
+	
+	setbignums(str1, sum[0], size);
+	setbignums(str2, sum[1], size);
+}
+
+void multfrac(char *str1, char *str2, char *str3, char *str4, int decplace, int size, char sum[2][size*9+1])
+{  
+	setbignums(sum[0], str1, size);
+	multbignums(sum[0], str3, decplace, size);
+	
+	setbignums(sum[1], str2, size);
+	multbignums(sum[1], str4, decplace, size);
+	
+	setbignums(str1, sum[0], size);
+	setbignums(str2, sum[1], size);
+}
+
+void divfrac(char *str1, char *str2, char *str3, char *str4, int decplace, int size, char sum[2][size*9+1])
+{   
+	setbignums(sum[0], str1, size);
+	multbignums(sum[0], str4, decplace, size);
+	
+	setbignums(sum[1], str2, size);
+	multbignums(sum[1], str3, decplace, size);
+	
+	setbignums(str1, sum[0], size);
+	setbignums(str2, sum[1], size);
+}
