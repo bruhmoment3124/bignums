@@ -30,11 +30,14 @@ void numtostr(int *arr, char *str, int decplace, int size)
 	{
 		for(k = 8; k>=0; k--)
 		{
-			if((9*i-k)-1 == decplace*9) x++;
+			if(decplace != 0)
+			{
+				if((9*i-k)-1 == decplace*9) x++;
+			}
 			str[(9*i-k)-1+x] = ((int)floor(arr[i-1] / pow((double)10, (double)k)) % 10)+48;
 		}
 	}
-	str[9*decplace] = '.';
+	if(decplace != 0) str[9*decplace] = '.';
 }
 
 int sizeofstr(char *str)
