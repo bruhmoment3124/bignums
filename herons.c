@@ -10,7 +10,9 @@ int main(void)
 	
 	char sq[1801];
 	setbignums(sq, zero, 200);
-	sq[101*9-1] = '2';
+	
+	int k;
+	for(k = 101*9+1; k<1801; k++) sq[k] = '3';
 	
 	char est[1801];
 	setbignums(est, zero, 200);

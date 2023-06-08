@@ -4,47 +4,37 @@ void strtonum(char *str, int *arr, int size)
 {
 	char temp[size*9];
 	
-	int j, f = 0;
-	for(j = 0; j<size*9; j++)
+	int i, decplacejump = 0;
+	for(i = 0; i<size*9; i++)
 	{
-		temp[j] = '0';
+		temp[i] = '0';
 		
-		if(str[j] == '.') f++;
-		temp[j] = str[j+f];
+		if(str[i] == '.') decplacejump++;
+		temp[i] = str[i+decplacejump];
 	}
 
-	int i, k;
-	for(i = 1; i<=size; i++)
+	int j, k;
+	for(j = 1; j<=size; j++)
 	{
 		for(k = 8; k>=0; k--)
 		{	
-			arr[i-1] += (temp[(9*i-k)-1]-48)*pow((double)10, (double)k);
+			arr[j-1] += (temp[(9*j-k)-1]-48)*pow((double)10, (double)k);
 		}
 	}
 }
 
 void numtostr(int *arr, char *str, int decplace, int size)
 {
-	int i, k, x = 0;
+	int i, j, decplacejump = 0;
 	for(i = 1; i<=size; i++)
 	{
-		for(k = 8; k>=0; k--)
+		for(j = 8; j>=0; j--)
 		{
-			if((9*i-k)-1 == decplace*9) x++;
-			str[(9*i-k)-1+x] = ((int)floor(arr[i-1] / pow((double)10, (double)k)) % 10)+48;
+			if((9*i-j)-1 == decplace*9) decplacejump++;
+			str[(9*i-j)-1+decplacejump] = ((int)floor(arr[i-1] / pow((double)10, (double)j)) % 10)+48;
 		}
 	}
 	str[9*decplace] = '.';
-}
-
-int sizeofstr(char *str)
-{
-	int n = 0;
-	
-	int i;
-	for(i = 0; str[i] != '\0'; i++) n++;
-
-	return n;
 }
 
 void shiftbignums(char *str, int n, int size)
@@ -117,8 +107,8 @@ int paritybignums(char *str1, int size)
 {
 	int arr[size];
 
-	int l;
-	for(l = 0; l<size; l++) arr[l] = 0;
+	int i;
+	for(i = 0; i<size; i++) arr[i] = 0;
 	strtonum(str1, arr, size);
 	
 	if(arr[size-1] % 2 == 0) return 0;
@@ -130,26 +120,26 @@ char * addbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
 
-	int l;
-	for(l = 0; l<size; l++)
+	int i;
+	for(i = 0; i<size; i++)
 	{
-		arr1[l] = 0;
-		arr2[l] = 0;
+		arr1[i] = 0;
+		arr2[i] = 0;
 	}
 
 	strtonum(str1, arr1, size);
 	strtonum(str2, arr2, size);
 
-	int i;
-	for(i = 0; i<size; i++) arr1[i] += arr2[i];
-	
 	int j;
-	for(j = size-1; j>=0; j--) 
+	for(j = 0; j<size; j++) arr1[j] += arr2[j];
+	
+	int k;
+	for(k = size-1; k>=0; k--) 
 	{
-		if(arr1[j] >= 1000000000)
+		if(arr1[k] >= 1000000000)
 		{
-			arr1[j-1]++;
-			arr1[j] -= 1000000000;
+			arr1[k-1]++;
+			arr1[k] -= 1000000000;
 		}
 	}
 	numtostr(arr1, str1, decplace, size);
@@ -161,26 +151,26 @@ char * subbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
 
-	int l;
-	for(l = 0; l<size; l++)
+	int i;
+	for(i = 0; i<size; i++)
 	{
-		arr1[l] = 0;
-		arr2[l] = 0;
+		arr1[i] = 0;
+		arr2[i] = 0;
 	}
 
 	strtonum(str1, arr1, size);
 	strtonum(str2, arr2, size);
 
-	int i;
-	for(i = 0; i<size; i++) arr1[i] -= arr2[i];
-	
 	int j;
-	for(j = size-1; j>=0; j--) 
+	for(j = 0; j<size; j++) arr1[j] -= arr2[j];
+	
+	int k;
+	for(k = size-1; k>=0; k--) 
 	{
-		if(arr1[j] < 0)
+		if(arr1[k] < 0)
 		{
-			arr1[j-1]--;
-			arr1[j] += 1000000000;
+			arr1[k-1]--;
+			arr1[k] += 1000000000;
 		}
 	}
 	numtostr(arr1, str1, decplace, size);
@@ -195,23 +185,23 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	
 	int decend = 0, decsize = 0;
 	
-	int j;
-	for(j = size*9; j>=decplace*9; j--)
+	int i;
+	for(i = size*9; i>=decplace*9; i--)
 	{
-		if(decend == 0 && str2[j] >= 49 && str2[j] <= 57) decend = j;
+		if(decend == 0 && str2[i] >= 49 && str2[i] <= 57) decend = i;
 	}
 	if(decend > 0) decsize = decend-decplace*9;
 	
-	int g;
-	for(g = 0; g<decsize; g++) shiftbignums(str1, 1, size);
+	int j;
+	for(j = 0; j<decsize; j++) shiftbignums(str1, 1, size);
 	
-	int p;
-	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str2, 1, size);
+	int k;
+	for(k = 0; k<size*9-(decplace*9+decsize); k++) shiftbignums(str2, 1, size);
 	
 	char half[size*9+1], zero[size*9+1], prod[size*9+1], dbl[size*9+1];
 	
-	int i;
-	for(i = 0; i<size*9+1; i++) zero[i] = '0';
+	int l;
+	for(l = 0; l<size*9+1; l++) zero[l] = '0';
 	zero[9*decplace] = '.';
 	setbignums(prod, zero, size);
 	
@@ -223,8 +213,8 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 		addbignums(str1, dbl, decplace, size);
 		
 		setbignums(half, str2, size);
-		int l;
-		for(l = 0; l<4; l++) addbignums(str2, half, decplace, size);
+		int m;
+		for(m = 0; m<4; m++) addbignums(str2, half, decplace, size);
 		shiftbignums(str2, 1, size);
 	}
 	setbignums(str1, prod, size);
@@ -240,23 +230,23 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 	
 	int decend = 0, decsize = 0;
 	
-	int j;
-	for(j = size*9; j>=decplace*9; j--)
+	int i;
+	for(i = size*9; i>=decplace*9; i--)
 	{
-		if(decend == 0 && str2[j] >= 49 && str2[j] <= 57) decend = j;
+		if(decend == 0 && str2[i] >= 49 && str2[i] <= 57) decend = i;
 	}
 	if(decend > 0) decsize = decend-decplace*9;
 	
-	int g;
-	for(g = 0; g<decsize; g++) shiftbignums(str1, -1, size);
+	int j;
+	for(j = 0; j<decsize; j++) shiftbignums(str1, -1, size);
 	
-	int p;
-	for(p = 0; p<size*9-(decplace*9+decsize); p++) shiftbignums(str2, 1, size);
+	int k;
+	for(k = 0; k<size*9-(decplace*9+decsize); k++) shiftbignums(str2, 1, size);
 	
 	char quot[size*9+1], pow2[size*9+1], one[size*9+1], zero[size*9+1];
 	
-	int i;
-	for(i = 0; i<size*9+1; i++) zero[i] = '0';
+	int l;
+	for(l = 0; l<size*9+1; l++) zero[l] = '0';
 	zero[decplace*9] = '.';
 	
 	setbignums(quot, zero, size);
@@ -302,8 +292,8 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 			addbignums(quot, pow2, decplace, size);
 		}
 		
-		int l;
-		for(l = 0; l<4; l++)
+		int m;
+		for(m = 0; m<4; m++)
 		{	
 			addbignums(dbl, temp1, decplace, size);
 			addbignums(pow2, temp2, decplace, size);
