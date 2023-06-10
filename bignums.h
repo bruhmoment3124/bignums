@@ -1,5 +1,9 @@
 #include <math.h>
 
+/*************************
+* string-number operations
+/************************/
+
 void strtonum(char *str, int *arr, int size)
 {
 	char temp[size*9];
@@ -83,6 +87,10 @@ char * setbignums(char *str1, char *str2, int size)
 	return str1;
 }
 
+/**********************
+* comparison operations
+/*********************/
+
 int compbignums(char *str1, char *str2, int size)
 {	
 	int i;
@@ -115,6 +123,10 @@ int paritybignums(char *str1, int size)
 	
 	return 1;
 }
+
+/**********************
+* arithmetic operations
+/*********************/
 
 char * addbignums(char *str1, char *str2, int decplace, int size)
 {	
