@@ -79,12 +79,10 @@ void shiftbignums(char *str, int n, int size)
 	}
 }
 
-char * setbignums(char *str1, char *str2, int size)
+void setbignums(char *str1, char *str2, int size)
 {
 	int i;
 	for(i = 0; i<size*9+1; i++) str1[i] = str2[i];
-	
-	return str1;
 }
 
 /**********************
@@ -128,7 +126,7 @@ int paritybignums(char *str1, int size)
 * arithmetic operations
 /*********************/
 
-char * addbignums(char *str1, char *str2, int decplace, int size)
+void addbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
 
@@ -155,11 +153,9 @@ char * addbignums(char *str1, char *str2, int decplace, int size)
 		}
 	}
 	numtostr(arr1, str1, decplace, size);
-	
-	return str1;
 }
 
-char * subbignums(char *str1, char *str2, int decplace, int size)
+void subbignums(char *str1, char *str2, int decplace, int size)
 {	
 	int arr1[size], arr2[size];
 
@@ -186,11 +182,9 @@ char * subbignums(char *str1, char *str2, int decplace, int size)
 		}
 	}
 	numtostr(arr1, str1, decplace, size);
-	
-	return str1;
 }
 
-char * multbignums(char *str1, char *str2, int decplace, int size)
+void multbignums(char *str1, char *str2, int decplace, int size)
 {	
 	char strsave[size*9+1];
 	setbignums(strsave, str2, size);
@@ -231,11 +225,9 @@ char * multbignums(char *str1, char *str2, int decplace, int size)
 	}
 	setbignums(str1, prod, size);
 	setbignums(str2, strsave, size);
-	
-	return str1;
 }
 
-char * divbignums(char *str1, char *str2, int decplace, int size)
+void divbignums(char *str1, char *str2, int decplace, int size)
 {
 	char strsave[size*9+1];
 	setbignums(strsave, str2, size);
@@ -315,8 +307,6 @@ char * divbignums(char *str1, char *str2, int decplace, int size)
 	}
 	setbignums(str1, quot, size);
 	setbignums(str2, strsave, size);
-
-	return str1;
 }
 
 /**********
