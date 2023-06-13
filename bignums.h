@@ -128,8 +128,10 @@ int paritybignums(char *str1, int size)
 
 void addbignums(char *str1, char *str2, int decplace, int size)
 {	
+	/* arrays to hold string values*/
 	int arr1[size], arr2[size];
 
+	/* fill arrays with zeros */
 	int i;
 	for(i = 0; i<size; i++)
 	{
@@ -137,28 +139,35 @@ void addbignums(char *str1, char *str2, int decplace, int size)
 		arr2[i] = 0;
 	}
 
+	/* convert string value and hold in the arrays */
 	strtonum(str1, arr1, size);
 	strtonum(str2, arr2, size);
 
+	/* add each segment of the arrays together */
 	int j;
 	for(j = 0; j<size; j++) arr1[j] += arr2[j];
 	
 	int k;
 	for(k = size-1; k>=0; k--) 
 	{
+		/* arrays held in segments of 9 digits each, add one when over 9 digits */
 		if(arr1[k] >= 1000000000)
 		{
-			arr1[k-1]++;
-			arr1[k] -= 1000000000;
+			arr1[k-1]++; /* carry the value over */
+			arr1[k] -= 1000000000; /* reset current value by difference overflown */
 		}
 	}
+	
+	/* convert the array back into a string */
 	numtostr(arr1, str1, decplace, size);
 }
 
 void subbignums(char *str1, char *str2, int decplace, int size)
-{	
+{
+	/* arrays to hold string values*/
 	int arr1[size], arr2[size];
 
+	/* fill arrays with zeros */
 	int i;
 	for(i = 0; i<size; i++)
 	{
@@ -166,21 +175,27 @@ void subbignums(char *str1, char *str2, int decplace, int size)
 		arr2[i] = 0;
 	}
 
+	/* convert string value and hold in the arrays */
 	strtonum(str1, arr1, size);
 	strtonum(str2, arr2, size);
 
+	/* subtract each segment of the arrays from one another */
 	int j;
 	for(j = 0; j<size; j++) arr1[j] -= arr2[j];
 	
 	int k;
-	for(k = size-1; k>=0; k--) 
+	for(k = size-1; k>=0; k--)
 	{
+		/* arrays held in segments of 9 digits each. When below 0, subtract nearest digit by one
+		   and reset */
 		if(arr1[k] < 0)
 		{
-			arr1[k-1]--;
-			arr1[k] += 1000000000;
+			arr1[k-1]--; /* subtract 1 from nearest place */
+			arr1[k] += 1000000000; /* reset difference by amount below 0 */
 		}
 	}
+	
+	/* convert the array back into a string */
 	numtostr(arr1, str1, decplace, size);
 }
 
