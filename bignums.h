@@ -199,8 +199,11 @@ void subbignums(char *str1, char *str2, int decplace, int size)
 	numtostr(arr1, str1, decplace, size);
 }
 
+/* an implementation of Russian peasant multiplication:
+   https://en.wikipedia.org/wiki/Multiplication_algorithm#Russian_peasant_multiplication */
 void multbignums(char *str1, char *str2, int decplace, int size)
 {	
+	/* created to keep the value of str2 and the end of the function */
 	char strsave[size*9+1];
 	setbignums(strsave, str2, size);
 	
@@ -228,20 +231,25 @@ void multbignums(char *str1, char *str2, int decplace, int size)
 	
 	while(compbignums(str2, zero, size) == 1)
 	{	
+		/* add the doubles of str1 to the final product if str2 is odd */
 		if(paritybignums(str2, size) == 1) addbignums(prod, str1, decplace, size);
 		
+		/* double value of str1 */
 		setbignums(dbl, str1, size);
 		addbignums(str1, dbl, decplace, size);
 		
+		/* half value of str2 */
 		setbignums(half, str2, size);
 		int m;
 		for(m = 0; m<4; m++) addbignums(str2, half, decplace, size);
 		shiftbignums(str2, 1, size);
 	}
-	setbignums(str1, prod, size);
-	setbignums(str2, strsave, size);
+	setbignums(str1, prod, size); /* set str1 as the final product */
+	setbignums(str2, strsave, size); /* reset str2 to original value */
 }
 
+/* an implementation of Egyptian division:
+   https://rosettacode.org/wiki/Egyptian_division */
 void divbignums(char *str1, char *str2, int decplace, int size)
 {
 	char strsave[size*9+1];
